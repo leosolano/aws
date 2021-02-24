@@ -17,7 +17,12 @@ In this step the idea is to create a cloudwatch alarm based on the instance ID t
 As part of the integration process it´ll be require to use some python libraries that are not present in Lamda by default, it is why you need to create a Cloud9 environment, wher you couls install the python modules that are not present in Lambda, as "zeep" library, required to make SOAP calls to the remedy web services. 
 Go to Cloud9 Environment, and create the smaller instance you can four your project. Once you have your environment ready install the zeep package following the next comands: python -m pip install --target=./ zeep. If any other external library is required just go and use the following public post: https://aws.amazon.com/premiumsupport/knowledge-center/cloud9-deploy-lambda-external-libraries/
 
-# Step 4. Create your Lambda code from Cloud9.
+# Step 4. Create a DynamoDB Table (Optional)
+For thos cases where the information that comes from the cloudwatch alarms is not enough to fill the form to pass the alarm to Helix, would be a good idea to create a DynamoDB table including some fields that could be linked with the AWS AccountID, as customer name, etc. In this case the table we created includes just the account ID and customer name fields, but account ID is the partition key in this DynamoDB table.
+
+
+
+# Step 5. Create your Lambda code from Cloud9.
             
 
 
