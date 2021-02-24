@@ -6,8 +6,10 @@ In the following tutorial I am going to describe the step by step required to in
 # Step 1. Create an EC2 instance t2.micro and install stress tool 
 As you might now cloudwath have the features of cloud alarm, but the intention here is to create a t2.micro aws linux 2 ami with Public IP enabled in order to access it via SSH and install the stress tool. 
 
-# **login to the EC2 instance
+1. login to the EC2 instance: ssh -i "key-pair" ec2-user@public_ip
+2. Enable EPEL repo : "sudo amazon-linux-extras install epel -y"
+3. Install Stress : "sudo yum install stress -y"
 
-sudo amazon-linux-extras install epel -y
+
 
 
