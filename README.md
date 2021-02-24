@@ -1,17 +1,17 @@
 # AWS and Remedy Integration for MultiCustomer Environments
-In the following tutorial I am going to describe the step by step required to integrate aws cloudwatch with Remedy Helix ITSM. Event though it could be the same process to integrate with any other exsposed web services, during this tutorial we will share the use of SOAP web services, which could be the midleware between AWS and Remedy Helix. The set of aws service that will be part of this integration are: cloudwatch alarm, SNS,Lambda, IAM, DynamoDB, Cloud9 & EC2
+In the following tutorial I am going to describe the step by step required to integrate aws cloudwatch with Remedy Helix ITSM. Event though it could be the same process to integrate  any other exposed  web services, during this tutorial we will share the use of SOAP web services, which could be the midleware between AWS and Remedy Helix. The set of aws services that will be part of this integration are: cloudwatch alarm, SNS,Lambda, IAM, DynamoDB, Cloud9 & EC2
 
 ![Architecture](https://github.com/leosolano/aws_remedy/blob/main/img/img1.png)
 
 # Step 1. Create an EC2 instance t2.micro and install stress tool 
-As you might now cloudwath have the features of cloud alarm, but the intention here is to create a t2.micro aws linux 2 ami with Public IP enabled in order to access it via SSH and install the stress tool. 
+As you might now cloudwatch have the feature of cloudwatch alarm that we could use to triger an SNS topic, but the intention in this first step is to create a t2.micro aws linux 2 ami EC2 instance  with Public IP enabled in order to access it via SSH and install the stress tool. 
 
 1. login to the EC2 instance: ssh -i "key-pair" ec2-user@public_ip
 2. Enable EPEL repo : "sudo amazon-linux-extras install epel -y"
 3. Install Stress : "sudo yum install stress -y"
 
 # Step 2. Create a cloudwatch alarm 
-In this step the idea is to create a cloudwatch alarm based on the instance ID that you could capture from the EC2 console. Once you have the ID thats looks as i-4567sbsgsjsjsj, go to -->cloudwatch --> alarms -->create alarms --> select metric. At this point you need to look inside the EC2 metrics related with the interested variable (CPUUtilization in our case). In the "conditions" section choice Greater or Greater/Equal, than and put the value in % for your alarm. In our exmaple it would be 90%, then hit "next". In the "Alarm state trigger" section choice *Create New Topic* and put the name of your new SNS Topic. If you didn't created a SNS topic preiovsly an email address would be required, but you could create an SNS topic previous to this step, and you can avoid to add an email address, to just subscribe a Lambda function as part of this topic. 
+In this step the idea is to create a cloudwatch alarm based on the instance ID that you could capture from the EC2 console. Once you have the ID thats looks as i-4567sbsgsjabcd, go to -->cloudwatch --> alarms -->create alarms --> select metric. At this point you need to look inside the EC2 metrics related with the interested variable (CPUUtilization in our case). In the "conditions" section choice Greater or Greater/Equal, than and put the value in % for your alarm. In our example it would be 90%, then hit "next". In the "Alarm state trigger" section choice *Create New Topic* and put the name of your new SNS Topic. If you didn't created a SNS topic preiovsly an email address would be required, but you could create an SNS topic in advance to this step and you can avoid to add an email address to link  a Lambda function as part of this topic. 
 
 # Step 3. Create a Cloud9 Environment
 As part of the integration process it´ll be require to use some python libraries that are not present in Lamda by default, it is why you need to create a Cloud9 environment, wher you couls install the python modules that are not present in Lambda, as "zeep" library, required to make SOAP calls to the remedy web services. 
@@ -27,13 +27,17 @@ Now is the time to deploy thge lamda fuction called aws_to_remedy.py in the Clou
 In the code foler you have one example of this lambda function using python3.7  as runtime, so now is the momento to pass the whole environment (including zeep library) to Lambda. To do that see the procedure as follows here: https://docs.aws.amazon.com/cloud9/latest/user-guide/lambda-toolkit.html.    Please use the "Uploading a Lambda function" section.
 Remember to set the appropiate IAM Lambda execution role to allows the Lambda function to record events in cloudwatch logs and to query DynamoDB Tables. In my example I used the included IAM Policies in the "examples" folder.
             
+# Step 6. Subscribe the Lamda function to the SNS Topic
+You need to subscribe the lambda function to created in the previous step, to teh SNS topic created in the Step 2. 
+To do that just go to SNS in console, click in "topics" -->choice your SNS Topic-->Create Subscription-->"Protocol" Section choice "AWS Lambda"-->paste tghe ARN of your AWS Lambda function-->hit "create subscription"
+            
 # Step 6. Test the integration
 This is the final step, and the only required action is to access the EC2 instances under test and force the CPU to be higher than 90% with the stress tool.
 
 1. login to the EC2 instance: ssh -i "key-pair" ec2-user@public_ip
 2. run stress : "stress -c 2 -t 900"
-3. IReview the alarms in cloudwatch alarms
-4. Validate if the Lambda function ends withour any error in the cloudwatch log group.
+3. Review the alarms in cloudwatch alarms
+4. Validate if the Lambda function ends withou any error in the cloudwatch log group.
 
          
 
