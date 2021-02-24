@@ -8,7 +8,9 @@ In the following tutorial I am going to describe the step by step required to in
 *Cloud9
 *EC2
 
-[Architecture](https://github.com/leosolano/aws_remedy/blob/main/img/img1.png)
+![Architecture](https://leosolano.github.com/aws_remedy/img/img1.png)
+
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
 
 # Step 1. Create an EC2 instance t2.micro and install stress tool 
 As you might now cloudwath have t
