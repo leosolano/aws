@@ -23,7 +23,9 @@ Go to DynamoDB-->Create Table : Section "Create DynamoDB table" Table Name <your
 Go to your new table an create items as follow --> "Create Item", in Accound_ID value field write "<the list of your acount IDs>", then append a new String field with "<your customer name>". 
 
 # Step 5. Create your Lambda code from Cloud9.
-NOs is the time to deploy thge lamda fuction called aws_to_remedy.py in the Cloud9 Environment, but previos to do that you need to check the exact set of field that rou wsdl endpoint requires. To do that execute the following commamnd from the Cloud9 console: python -mzeep <your wsdl endpoint>. See the attached example in "example" folder. 
+NOs is the time to deploy thge lamda fuction called aws_to_remedy.py in the Cloud9 Environment, but previos to do that you need to check the exact set of field that rou wsdl endpoint requires. To do that execute the following commamnd from the Cloud9 console: python -mzeep <your wsdl endpoint>. See the attached example in "example" folder. After that, you would be able to capture all the required fields in the wsdl Method to pass later in the SOAP call, using request class. 
+
+
             
             
 
