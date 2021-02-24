@@ -11,10 +11,13 @@ As you might now cloudwath have the features of cloud alarm, but the intention h
 3. Install Stress : "sudo yum install stress -y"
 
 # Step 2. Create a cloudwatch alarm 
-In this step the idea is to create a cloudwatch alarm based on the instance ID that you could capture from the EC2 console. Once you have the ID thats looks as i-4567sbsgsjsjsj, go to -->cloudwatch --> alarms -->create alarms --> select metric. At this poit you need to look inside the EC2 metrics related with the interested variable (CPUUtilization in our case). In the "conditions" section choice Greater or Greater/Equal, than and put the value in % for your alarm. In our exmaple it would be 90%, then hit "next". In the "Alarm state trigger" section choice *Create New Topic* and put the name of your new SNS Topic. If you didn't created a SNS topic preiovsly an email address would be required, but you could create an SNS topic previous to this step, and you can avoid to add an email address, to just subscribe a Lambda function as part of this topic. 
+In this step the idea is to create a cloudwatch alarm based on the instance ID that you could capture from the EC2 console. Once you have the ID thats looks as i-4567sbsgsjsjsj, go to -->cloudwatch --> alarms -->create alarms --> select metric. At this point you need to look inside the EC2 metrics related with the interested variable (CPUUtilization in our case). In the "conditions" section choice Greater or Greater/Equal, than and put the value in % for your alarm. In our exmaple it would be 90%, then hit "next". In the "Alarm state trigger" section choice *Create New Topic* and put the name of your new SNS Topic. If you didn't created a SNS topic preiovsly an email address would be required, but you could create an SNS topic previous to this step, and you can avoid to add an email address, to just subscribe a Lambda function as part of this topic. 
 
 # Step 3. Create a Cloud9 Environment
+As part of the integration process it´ll be require to use some python libraries that are not present in Lamda by default, it is why you need to create a Cloud9 environment, wher you couls install the python modules that are not present in Lambda, as "zeep" library, required to make SOAP calls to the remedy web services. 
+Go to Cloud9 Environment, and create the smaller instance you can four your project. Once you have your environment ready install the zeep package following the next comands: python -m pip install --target=./ zeep. If any other external library is required just go and use the following public post: https://aws.amazon.com/premiumsupport/knowledge-center/cloud9-deploy-lambda-external-libraries/
 
+# Step 4. Create your Lambda code from Cloud9.
             
 
 
