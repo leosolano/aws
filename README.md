@@ -24,7 +24,12 @@ Go to your new table an create items as follow --> "Create Item", in Accound_ID 
 
 # Step 5. Create your Lambda code from Cloud9.
 NOs is the time to deploy thge lamda fuction called aws_to_remedy.py in the Cloud9 Environment, but previos to do that you need to check the exact set of field that rou wsdl endpoint requires. To do that execute the following commamnd from the Cloud9 console: python -mzeep <your wsdl endpoint>. See the attached example in "example" folder. After that, you would be able to capture all the required fields in the wsdl Method to pass later in the SOAP call, using request class. 
+In the code foler you have one example of this lambda function using python3.7  as runtime, so now is the momento to pass the whole environment (including zeep library) to Lambda. To do that see the procedure as follows here: https://docs.aws.amazon.com/cloud9/latest/user-guide/lambda-toolkit.html.    Please use the "Uploading a Lambda function" section.
+Remember to set the appropiate IAM Lambda execution role to allows the Lambda function to record events in cloudwatch logs and to query DynamoDB Tables. In my example I used the included IAM Policies in the "Policies" folder.
 
+            
+
+ 
 
             
             
