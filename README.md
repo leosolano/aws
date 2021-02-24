@@ -23,11 +23,19 @@ Go to DynamoDB-->Create Table : Section "Create DynamoDB table" Table Name <your
 Go to your new table an create items as follow --> "Create Item", in Accound_ID value field write "<the list of your acount IDs>", then append a new String field with "<your customer name>". 
 
 # Step 5. Create your Lambda code from Cloud9.
-NOs is the time to deploy thge lamda fuction called aws_to_remedy.py in the Cloud9 Environment, but previos to do that you need to check the exact set of field that rou wsdl endpoint requires. To do that execute the following commamnd from the Cloud9 console: python -mzeep <your wsdl endpoint>. See the attached example in "example" folder. After that, you would be able to capture all the required fields in the wsdl Method to pass later in the SOAP call, using request class. 
+Now is the time to deploy thge lamda fuction called aws_to_remedy.py in the Cloud9 Environment, but previos to do that you need to check the exact set of field that rou wsdl endpoint requires. To do that execute the following commamnd from the Cloud9 console: python -mzeep <your wsdl endpoint>. See the attached example in "example" folder. After that, you would be able to capture all the required fields in the wsdl Method to pass later in the SOAP call, using request class. 
 In the code foler you have one example of this lambda function using python3.7  as runtime, so now is the momento to pass the whole environment (including zeep library) to Lambda. To do that see the procedure as follows here: https://docs.aws.amazon.com/cloud9/latest/user-guide/lambda-toolkit.html.    Please use the "Uploading a Lambda function" section.
-Remember to set the appropiate IAM Lambda execution role to allows the Lambda function to record events in cloudwatch logs and to query DynamoDB Tables. In my example I used the included IAM Policies in the "Policies" folder.
-
+Remember to set the appropiate IAM Lambda execution role to allows the Lambda function to record events in cloudwatch logs and to query DynamoDB Tables. In my example I used the included IAM Policies in the "examples" folder.
             
+# Step 6. Test the integration
+This is the final step, and the only required action is to access the EC2 instances under test and force the CPU to be higher than 90% with the stress tool.
+
+1. login to the EC2 instance: ssh -i "key-pair" ec2-user@public_ip
+2. run stress : "stress -c 2 -t 900"
+3. IReview the alarms in cloudwatch alarms
+4. Validate if the Lambda function ends withour any error in the cloudwatch log group.
+
+         
 
  
 
